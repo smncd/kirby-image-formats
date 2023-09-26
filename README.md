@@ -8,11 +8,13 @@ Converts images to WebP on upload.
 
 ## Installation
 
-```bash
+[To be written]
+
+<!--```bash
 composer require smncd/kirby-image-formats
 ```
 
-That's it! The plugin requires no setup or configuration to run. WebP images are generated on upload and stored in the `media` dir.
+That's it! The plugin requires no setup or configuration to run. WebP images are generated on upload and stored in the `media` dir. -->
 
 ## Usage
 
@@ -77,6 +79,16 @@ This also works natively with the [kirby-twig plugin](https://github.com/weareju
 To use the new `picture` snippet in the default **image** and **gallery** blocks, you need to modify their snippets.
 
 You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default). If you are using Twig templates in your project, you can use the Twig snippets instead.
+
+## To do:
+
+### Support AVIF
+
+I'm aiming to be able to introduce support for generating AVIF images as soon as this is more fesable on php. Right now it's a bit hit or miss.
+
+### General stability
+
+Make sure the plugin is stable and works with all [installation methods](https://getkirby.com/docs/guide/plugins/plugin-setup-basic#the-three-plugin-installation-methods).
 
 ## Licensing and ownership
 
