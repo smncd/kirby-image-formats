@@ -59,7 +59,7 @@ class Utils
     }
 
     /**
-     * @param File $file
+     * @param string $path
      * @param string $format
      * 
      * @return string
