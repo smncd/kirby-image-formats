@@ -6,7 +6,6 @@ namespace KirbyImageFormats;
 use Exception;
 use Kirby\Cms\File;
 use Kirby\Filesystem\F;
-use Kirby\Filesystem\Dir;
 use WebPConvert\WebPConvert;
 
 /**
@@ -56,10 +55,6 @@ class Plugin
         }
 
         $fileNames = Utils::getPaths($file);
-
-        foreach ($fileNames as $fileName) {
-            Dir::make(F::dirname(file: $fileName), true);
-        }
 
         self::_generateWebP($fileNames['webp'], $file);
     }
