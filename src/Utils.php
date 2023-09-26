@@ -27,18 +27,16 @@ class Utils
      */
     public static function getUrls(Kirby $context, File $file): array
     {
-        $root = $context->root('index');
-
         $urls = [];
 
         foreach (Plugin::FORMATS as $format) {
-            $filePath = self::_filePath($file, $format);
+            $filePath = self::_filePath($file->url(), $format);
 
-            if (!F::exists($root . $filePath)) {
+            if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {
                 Plugin::hookFileCreateAfter($context, $file);
             } 
                 
-            $urls[$format] = $context->url('index') . $filePath;           
+            $urls[$format] = $filePath;           
         }
         
         return $urls;
@@ -57,7 +55,7 @@ class Utils
         $paths = [];
 
         foreach (Plugin::FORMATS as $format) {
-            $paths[$format] = $context->root('index') . self::_filePath($file, $format);
+            $paths[$format] = self::_filePath($file->mediaRoot(), $format);
         }
         
         return $paths;
@@ -69,8 +67,8 @@ class Utils
      * 
      * @return string
      */
-    private static function _filePath(File $file, string $format): string
+    private static function _filePath(string $path, string $format): string
     {
-        return '/_' . $format . '/'. $file->mediaToken() . '-' . $file->exif()->timestamp() . '/' . $file->name() . '.' . $format;
+        return F::dirname($path) . '/' . pathinfo(F::filename($path), PATHINFO_FILENAME) . '.' . $format;
     }
 }

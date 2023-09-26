@@ -12,7 +12,7 @@ Converts images to WebP on upload.
 composer require smncd/kirby-image-formats
 ```
 
-That's it! The plugin requires no setup or configuration to run. WebP images are generated on upload and stored in the `{index}/_webp` dir.
+That's it! The plugin requires no setup or configuration to run. WebP images are generated on upload and stored in the `media` dir.
 
 ## Usage
 
