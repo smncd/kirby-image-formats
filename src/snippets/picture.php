@@ -15,21 +15,15 @@ $class = isset($class) ? $class : '';
 
 $alt = isset($alt) ? $alt : '';
 
-if (!isset($image)) {
-    return;
-}
-
-if (!$image->name()) {
-    return;
-}
-
-$fileNames = Utils::getUrls($image);
+$fileNames = Utils::getUrls($image) ?: [];
 
 ?>
 
-<picture>
-    <?php foreach ($fileNames as $extension => $url): ?>
-        <source srcset="<?= $url ?>" type="image/<?= $extension ?>" />
-    <?php endforeach; ?>
-    <img class="<?= $class ?>" src="<?= $image->url() ?>" alt="<?= $alt ?>" />
-</picture>
+<?php if (isset($image) && $image->url()): ?>
+    <picture>
+        <?php foreach ($fileNames as $extension => $url): ?>
+            <source srcset="<?= $url ?>" type="image/<?= $extension ?>" />
+        <?php endforeach ?>
+        <img class="<?= $class ?>" src="<?= $image->url() ?>" alt="<?= $alt ?>" />
+    </picture>
+<?php endif ?>
