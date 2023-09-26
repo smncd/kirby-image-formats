@@ -2,6 +2,8 @@
 
 Converts images to WebP on upload.
 
+As of writing, this project is very much in it's early stages of development, and not ready for general use.
+
 ## Requirements
 
 * Kirby CMS ^3.9
