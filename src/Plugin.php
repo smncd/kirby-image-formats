@@ -92,9 +92,8 @@ class Plugin
         foreach ($fileNames as $fileName) {
             $dir = F::dirname($fileName);
 
-            if(Dir::exists($dir)) {
-                Dir::remove($dir);
-                break;
+            if(F::exists($dir)) {
+                F::remove($dir);
             }
         }
     }
