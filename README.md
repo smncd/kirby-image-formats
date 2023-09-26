@@ -2,9 +2,9 @@
 
 Kirby CMS Plugin.
 
-Converts images to WebP on upload.
+Converts images to WebP on upload 🖼️
 
-### As of writing, this project is very much in it's early stages of development, and not ready for general use.
+### ⚠️ As of writing, this project is very much in it's early stages of development, and not ready for general use. ⚠️
 
 ## Requirements
 
