@@ -103,7 +103,7 @@ class Plugin
      * 
      * @return void
      */
-    public static function _generateWebP(string $destination, File $file): void
+    private static function _generateWebP(string $destination, File $file): void
     {
         try {
             if (in_array($file->extension(), self::ALLOWED_EXTENSIONS)) {
