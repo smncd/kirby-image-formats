@@ -88,6 +88,11 @@ You can either write custom snippets, or copy the php files in the [example-snip
 
 I'm aiming to be able to introduce support for generating AVIF images as soon as this is more fesable on php. Right now it's a bit hit or miss.
 
+### Config options
+
+Make options to configure the plugin available in the Kirby `config.php` file.
+Such as enable/disable, generated image quality, etc.
+
 ### General stability
 
 Make sure the plugin is stable and works with all [installation methods](https://getkirby.com/docs/guide/plugins/plugin-setup-basic#the-three-plugin-installation-methods).
