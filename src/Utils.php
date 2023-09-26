@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace KirbyImageFormats;
 
-use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
 use Kirby\Filesystem\F;
 
@@ -20,12 +19,11 @@ class Utils
     /**
      * Get array of URL's for converted image.
      * 
-     * @param Kirby $context
      * @param File $file
      * 
      * @return array
      */
-    public static function getUrls(Kirby $context, File $file): array
+    public static function getUrls(File $file): array
     {
         $urls = [];
 
@@ -33,7 +31,7 @@ class Utils
             $filePath = self::_filePath($file->url(), $format);
 
             if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {
-                Plugin::hookFileCreateAfter($context, $file);
+                Plugin::hookFileCreateAfter($file);
             } 
                 
             $urls[$format] = $filePath;           
@@ -45,12 +43,11 @@ class Utils
     /**
      * Get array of filesystem paths for converted image.
      * 
-     * @param Kirby $context
      * @param File $file
      * 
      * @return array
      */
-    public static function getPaths(Kirby $context, File $file): array
+    public static function getPaths(File $file): array
     {
         $paths = [];
 

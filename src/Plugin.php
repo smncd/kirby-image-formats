@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace KirbyImageFormats;
 
 use Exception;
-use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
 use Kirby\Filesystem\F;
 use Kirby\Filesystem\Dir;
@@ -46,18 +45,17 @@ class Plugin
      * After file has been created.
      * 
      * 
-     * @param Kirby $context
      * @param File $file
      * 
      * @return void
      */
-    public static function hookFileCreateAfter(Kirby $context, File $file): void
+    public static function hookFileCreateAfter(File $file): void
     {
         if (!in_array($file->extension(), self::ALLOWED_EXTENSIONS)) {
             return;
         }
 
-        $fileNames = Utils::getPaths($context, $file);
+        $fileNames = Utils::getPaths($file);
 
         foreach ($fileNames as $fileName) {
             Dir::make(F::dirname(file: $fileName), true);
@@ -70,28 +68,26 @@ class Plugin
      * After file has been replaced.
      * 
      * 
-     * @param Kirby $context
      * @param File $file
      * 
      * @return void
      */
-    public static function hookFileReplaceAfter(Kirby $context, File $file): void
+    public static function hookFileReplaceAfter(File $file): void
     {
-        self::hookFileCreateAfter($context, $file);
+        self::hookFileCreateAfter($file);
     }
 
     /**
      * After file has been deleted.
      * 
      * 
-     * @param Kirby $context
      * @param File $file
      * 
      * @return void
      */
-    public static function hookFileDeleteAfter(Kirby $context, File $file): void
+    public static function hookFileDeleteAfter(File $file): void
     {
-        $fileNames = Utils::getPaths($context, $file);
+        $fileNames = Utils::getPaths($file);
 
         foreach ($fileNames as $fileName) {
             $dir = F::dirname($fileName);

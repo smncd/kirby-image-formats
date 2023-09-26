@@ -23,7 +23,7 @@ if (!$image->name()) {
     return;
 }
 
-$fileNames = Utils::getUrls($kirby, $image);
+$fileNames = Utils::getUrls($image);
 
 ?>
 
