@@ -106,14 +106,13 @@ class Plugin
     private static function _generateWebP(string $destination, File $file): void
     {
         try {
-            if (in_array($file->extension(), self::ALLOWED_EXTENSIONS)) {
-                $source = $file->contentFileDirectory() . '/' . $file->filename();
+            $source = $file->contentFileDirectory() . '/' . $file->filename();
 
-                WebPConvert::convert(
-                    $source,
-                    $destination
-                );
-            }
+            WebPConvert::convert(
+                $source,
+                $destination
+            );
+            
         } catch (Exception $exception) {
             die($exception->getMessage());
         }
