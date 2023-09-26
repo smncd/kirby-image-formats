@@ -36,7 +36,7 @@ The rendered HTML will be:
 ```html
 <picture>
   <source 
-    srcset="http://localhost:8000/_webp/1a2b3c4d5e-1738447298/file-name.webp" 
+    srcset="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.webp" 
     type="image/webp"
   >
   <img 
