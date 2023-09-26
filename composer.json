@@ -1,0 +1,25 @@
+{
+  "name": "smncd/kirby-image-formats",
+  "description": "A Kirby CMS plugin that converts images to WebP on upload.",
+  "type": "kirby-plugin",
+  "authors": [
+    {
+      "name": "Simon Lagerlöf",
+      "email": "contact@smn.codes"
+    }
+  ],
+  "license": "Do No Harm",
+  "require": {
+    "php": ">=8.0.0",
+    "rosell-dk/webp-convert": "^2.3",
+    "getkirby/composer-installer": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "KirbyImageFormats\\": "src/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
