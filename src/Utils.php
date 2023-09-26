@@ -18,11 +18,7 @@ class Utils
 {   
     public static function commandExists(string $command): bool
     {
-        if (!function_exists('exec')) {
-            return false;
-        }
-        
-        return !!`which $command`;
+        return function_exists('exec') && !!`which $command`;
     }
     
     /**
