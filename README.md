@@ -86,9 +86,9 @@ You can either write custom snippets, or copy the php files in the [example-snip
 
 ## To do:
 
-### Support AVIF
+### Support AVIF without `exec()`
 
-I'm aiming to be able to introduce support for generating AVIF images as soon as this is more fesable on php. Right now it's a bit hit or miss.
+I'm aiming to be able to introduce support for generating AVIF images without relying on `exec()` as soon as this is more fesable on php. Right now it's a bit hit or miss.
 
 ### Config options
 

@@ -38,7 +38,7 @@ class Plugin
      * 
      * @var array<string>
      */
-    const FORMATS = ['webp'];
+    const FORMATS = ['avif', 'webp'];
 
     /**
      * After file has been created.
@@ -57,6 +57,7 @@ class Plugin
         $fileNames = Utils::getPaths($file);
 
         self::_generateWebP($fileNames['webp'], $file);
+        self::_generateAvif($fileNames['avif'], $file);
     }
 
     /**
@@ -113,6 +114,38 @@ class Plugin
                 $destination
             );
             
+        } catch (Exception $exception) {
+            die($exception->getMessage());
+        }
+    }
+
+    /**
+     * Generate Avif.
+     * 
+     * Currently the only "reliable" way to do this is by running a cli tool,
+     * like `convert`, which while not ideal, works for now.
+     * 
+     * Although, this should perhaps be disabled by default.
+     * 
+     * @param string $destination
+     * @param File $file
+     * 
+     * @return void
+     */
+    private static function _generateAvif(string $destination, File $file): void
+    {
+        if (!Utils::commandExists('convert')) {
+            return;
+        }
+        
+        try {      
+            $source = $file->contentFileDirectory() . '/' . $file->filename();
+    
+            exec(
+                command: "convert {$source} {$destination}", 
+                output: $output, 
+                result_code: $returnCode
+            );           
         } catch (Exception $exception) {
             die($exception->getMessage());
         }

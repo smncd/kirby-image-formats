@@ -16,6 +16,15 @@ use Kirby\Filesystem\F;
  */
 class Utils
 {   
+    public static function commandExists(string $command): bool
+    {
+        if (!function_exists('exec')) {
+            return false;
+        }
+        
+        return !!`which $command`;
+    }
+    
     /**
      * Get array of URL's for converted image.
      * 
