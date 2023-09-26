@@ -76,7 +76,7 @@ This also works natively with the [kirby-twig plugin](https://github.com/weareju
 
 To use the new `picture` snippet in the default **image** and **gallery** blocks, you need to modify their snippets.
 
-You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default).
+You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default). If you are using Twig templates in your project, you can use the Twig snippets instead.
 
 ## Licensing and ownership
 

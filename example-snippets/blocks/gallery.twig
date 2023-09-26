@@ -1,0 +1,22 @@
+{% set caption = block.caption() %}
+{% set crop = block.crop.isTrue() %}
+{% set ratio = block.ratio.or('auto') %}
+
+<figure {{ attr({ 'data-ratio': ratio, 'data-crop': crop }) }}>
+  <ul>
+    {% for image in block.images.toFiles() %}
+      <li>
+        {{ 
+          snippet('picture', {
+            image: image,
+          }) 
+        }}
+      </li>
+    {% endfor %}
+  </ul>
+  {% if caption.isNotEmpty() %}
+    <figcaption>
+      {{ caption }}
+    </figcaption>
+  {% endif %}
+</figure>

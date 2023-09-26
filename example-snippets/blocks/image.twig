@@ -1,0 +1,50 @@
+{% set alt     = block.alt() %}
+{% set caption = block.caption() %}
+{% set crop    = block.crop.isTrue() %}
+{% set link    = block.link() %}
+{% set ratio   = block.ratio.or('auto') %}
+{% set src     = null %}
+{% set image   = null %}
+{% set isWeb   = block.location() == 'web' %}
+
+{% if isWeb %}
+  {% set src = block.src.esc() %}
+{% else %}
+  {% set image = block.image.toFile() %}
+  {% set alt   = alt.or(image.alt()) %}
+{% endif %}
+
+{% if src or image.url() %}
+  <figure {{ attr({ 'data-ratio': ratio, 'data-crop': crop }) }}>
+    {% if link.isNotEmpty() %}
+      <a href="{{ esc(link.toUrl()) }}">
+        {% if isWeb %}
+          <img src="{{ src }}" alt="{{ alt.esc() }}">
+        {% else %}
+          {{
+            snippet('picture', {
+              image: image,
+              alt: alt.esc()
+            })
+          }}    
+        {% endif %}
+      </a>
+    {% else %}
+      {% if isWeb %}
+          <img src="{{ src }}" alt="{{ alt.esc() }}">
+        {% else %}
+          {{
+            snippet('picture', {
+              image: image,
+              alt: alt.esc()
+            })
+          }}    
+        {% endif %}
+    {% endif %}
+    {% if caption.isNotEmpty() %}
+      <figcaption>
+        {{ caption }}
+      </figcaption>
+    {% endif %}
+  </figure>
+{% endif %}
