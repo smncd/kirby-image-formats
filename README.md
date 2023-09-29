@@ -86,9 +86,9 @@ You can either write custom snippets, or copy the php files in the [example-snip
 
 ## To do:
 
-### Support AVIF without `exec()`
+### Fully support Avif
 
-I'm aiming to be able to introduce support for generating AVIF images without relying on `exec()` as soon as this is more fesable on php. Right now it's a bit hit or miss.
+Using Imagick to generate Avif images from Png's seems to be a bit of a hit or miss, since background opacity aren't carried over, so until I find a solution to that, Avif's will only be create for Jpg's.
 
 ### Config options
 

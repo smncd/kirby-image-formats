@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace KirbyImageFormats;
 
+use Exception;
 use Kirby\Cms\File;
 use Kirby\Filesystem\F;
 
@@ -33,13 +34,21 @@ class Utils
         $urls = [];
 
         foreach (Plugin::FORMATS as $format) {
-            $filePath = self::_filePath($file->url(), $format);
 
             if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {
-                Plugin::hookFileCreateAfter($file);
+                
+                if ($format === 'avif' && $file->extension() === 'png') {
+                    continue;
+                }
+
+                try {
+                    Plugin::hookFileCreateAfter($file);
+                } catch (Exception $exception) {
+                    continue;
+                }
             } 
                 
-            $urls[$format] = $filePath;           
+            $urls[$format] = self::_filePath($file->url(), $format);           
         }
         
         return $urls;

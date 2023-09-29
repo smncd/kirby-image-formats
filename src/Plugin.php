@@ -122,10 +122,9 @@ class Plugin
     /**
      * Generate Avif.
      * 
-     * Currently the only "reliable" way to do this is by running a cli tool,
-     * like `convert`, which while not ideal, works for now.
-     * 
-     * Although, this should perhaps be disabled by default.
+     * It seems converting png's to avif is not very reliable, 
+     * as the alpha channel is not carried through to the output. 
+     * So, let's only convert jpg's to avif, for now.
      * 
      * @param string $destination
      * @param File $file
@@ -134,18 +133,17 @@ class Plugin
      */
     private static function _generateAvif(string $destination, File $file): void
     {
-        if (!Utils::commandExists('convert')) {
+        if (!class_exists('Imagick') || !in_array($file->extension(), ['jpg', 'jpeg'])) {
             return;
         }
         
         try {      
             $source = $file->contentFileDirectory() . '/' . $file->filename();
     
-            exec(
-                command: "convert {$source} {$destination}", 
-                output: $output, 
-                result_code: $returnCode
-            );           
+            $image = new \Imagick($source);
+            $image->setImageFormat('avif');
+            $image->writeImage($destination);
+
         } catch (Exception $exception) {
             die($exception->getMessage());
         }
