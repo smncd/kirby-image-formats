@@ -9,6 +9,7 @@ Converts images to WebP on upload 🖼️
 ## Requirements
 
 * Kirby CMS ^3.9
+* PHP Imagick
 
 ## Installation
 
