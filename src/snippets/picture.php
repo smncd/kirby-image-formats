@@ -9,13 +9,13 @@
 
 declare(strict_types=1);
 
-use KirbyImageFormats\Utils;
+use KirbyImageFormats\Plugin;
 
 $class = isset($class) ? $class : '';
 
 $alt = isset($alt) ? $alt : '';
 
-$fileNames = Utils::getUrls($image) ?: [];
+$fileNames = Plugin::getUrls($image) ?: [];
 
 ?>
 

@@ -54,7 +54,7 @@ class Plugin
             return;
         }
 
-        $fileNames = Utils::getPaths($file);
+        $fileNames = self::getPaths($file);
 
         self::_generateWebP($fileNames['webp'], $file);
         self::_generateAvif($fileNames['avif'], $file);
@@ -83,7 +83,7 @@ class Plugin
      */
     public static function hookFileDeleteAfter(File $file): void
     {
-        $fileNames = Utils::getPaths($file);
+        $fileNames = self::getPaths($file);
 
         foreach ($fileNames as $fileName) {
             $dir = F::dirname($fileName);
@@ -92,6 +92,69 @@ class Plugin
                 F::remove($dir);
             }
         }
+    }
+
+    /**
+     * Get array of URL's for converted image.
+     * 
+     * @param File $file
+     * 
+     * @return array
+     */
+    public static function getUrls(File $file): array
+    {
+        $urls = [];
+
+        foreach (Plugin::FORMATS as $format) {
+
+            if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {
+                
+                if ($format === 'avif' && $file->extension() === 'png') {
+                    continue;
+                }
+
+                try {
+                    Plugin::hookFileCreateAfter($file);
+                } catch (Exception $exception) {
+                    continue;
+                }
+            } 
+                
+            $urls[$format] = self::_filePath($file->url(), $format);           
+        }
+        
+        return $urls;
+    }
+
+    /**
+     * Get array of filesystem paths for converted image.
+     * 
+     * @param File $file
+     * 
+     * @return array
+     */
+    public static function getPaths(File $file): array
+    {
+        $paths = [];
+
+        foreach (Plugin::FORMATS as $format) {
+            $paths[$format] = self::_filePath($file->mediaRoot(), $format);
+        }
+        
+        return $paths;
+    }
+
+    /**
+     * Get file path.
+     * 
+     * @param string $path
+     * @param string $format
+     * 
+     * @return string
+     */
+    private static function _filePath(string $path, string $format): string
+    {
+        return F::dirname($path) . '/' . pathinfo(F::filename($path), PATHINFO_FILENAME) . '.' . $format;
     }
 
     /**
