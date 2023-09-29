@@ -89,7 +89,7 @@ You can either write custom snippets, or copy the php files in the [example-snip
 
 ### Fully support Avif
 
-Using Imagick to generate Avif images from Png's seems to be a bit of a hit or miss, since background opacity aren't carried over, so until I find a solution to that, Avif's will only be create for Jpg's.
+Using Imagick to generate Avif images from Png's seems to be a bit of a hit or miss, since background opacity aren't carried over, so until I find a solution to that, Avif's will only be created for Jpg's.
 
 ### Config options
 
