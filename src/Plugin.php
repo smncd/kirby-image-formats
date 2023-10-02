@@ -127,11 +127,33 @@ class Plugin
         $fileNames = self::getImagePaths($file);
 
         foreach ($fileNames as $fileName) {
-            $dir = F::dirname($fileName);
-
-            if(F::exists($dir)) {
-                F::remove($dir);
+            if(F::exists($fileName)) {
+                F::remove($fileName);
             }
+        }
+    }
+
+     /**
+     * Delete all images.
+     *
+     * @param Kirby $context
+     *
+     * @return void
+     */
+    public static function deleteAllImages(Kirby $context): void
+    {
+        foreach (self::getAllImages($context, true) as $image) {
+            $file = $image['file'];
+
+            if (!isset($file)) {
+                return;
+            }
+
+            if (!($file instanceof File)) {
+                return;
+            }
+
+            self::deleteImages($file);
         }
     }
 

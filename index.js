@@ -48,6 +48,21 @@ panel.plugin('smncd/kirby-image-formats', {
 
           this.loading = false;
         },
+        async deleteImages() {
+          this.loading = true;
+
+          const res = await fetch(this.api.deleteImages, {
+            headers: {
+              'X-CSRF': this.api.csrf
+            }
+          });
+
+          const data = await res.json();
+
+          this.rows = this.formatRows(data)
+
+          this.loading = false;
+        },
         formatRows(rows) {
           return rows.map(image => ({
             name: image.name,
@@ -72,6 +87,7 @@ panel.plugin('smncd/kirby-image-formats', {
               <k-button-group>
                 <k-button icon="image" theme="positive" @click="generateImages()">Generate missing images</k-button>
                 <k-button icon="refresh" @click="generateImages()">Regenerate <strong>all</strong> images</k-button>
+                <k-button icon="trash" theme="negative" @click="deleteImages()">Delete generated images</k-button>
               </k-button-group>
               <k-box theme="info" text="This table provides an encompassing view of all the images available to Kirby, along with information regarding the presence of WebP and AVIF versions." />
               <br />

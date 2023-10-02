@@ -49,6 +49,7 @@ Kirby::plugin('smncd/kirby-image-formats', [
                         'props' => [
                             'api' => [
                                 'generateImages' => $kirby->url('api') . '/generate-images',
+                                'deleteImages' => $kirby->url('api') . '/delete-images',
                                 'csrf' => csrf(),
                             ],
                             'images' => Plugin::getAllImages($kirby),
@@ -64,6 +65,14 @@ Kirby::plugin('smncd/kirby-image-formats', [
                 'pattern' => 'generate-images',
                 'action'  => function () use ($kirby) {
                     Plugin::generateAllImages($kirby, true);
+
+                    return Plugin::getAllImages($kirby);
+                },
+            ],
+            [
+                'pattern' => 'delete-images',
+                'action'  => function () use ($kirby) {
+                    Plugin::deleteAllImages($kirby);
 
                     return Plugin::getAllImages($kirby);
                 },
