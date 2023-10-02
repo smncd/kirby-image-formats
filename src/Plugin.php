@@ -107,17 +107,8 @@ class Plugin
 
         foreach (Plugin::FORMATS as $format) {
 
-            if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {
-                
-                if ($format === 'avif' && $file->extension() === 'png') {
-                    continue;
-                }
-
-                try {
-                    Plugin::hookFileCreateAfter($file);
-                } catch (Exception $exception) {
-                    continue;
-                }
+            if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {        
+                continue;
             } 
                 
             $urls[$format] = self::_filePath($file->url(), $format);           
