@@ -66,10 +66,11 @@ class Plugin
      * Generate images.
      *
      * @param File $file
+     * @param bool $overwrite
      *
      * @return void
      */
-    public static function generateImages(File $file): void
+    public static function generateImages(File $file, ?bool $overwrite = false): void
     {
         if (!in_array($file->extension(), self::ALLOWED_EXTENSIONS)) {
             return;
@@ -77,8 +78,41 @@ class Plugin
 
         $fileNames = self::getImagePaths($file);
 
-        self::_generateWebP($fileNames['webp'], $file);
-        self::_generateAvif($fileNames['avif'], $file);
+        $webp = $fileNames['webp'];
+        $avif = $fileNames['avif'];
+
+        if (($overwrite && F::exists($webp)) || !F::exists($webp)) {
+            self::_generateWebP($webp, $file);
+        }
+
+        if (($overwrite && F::exists($avif)) || !F::exists($avif)) {
+            self::_generateAvif($avif, $file);
+        }
+    }
+
+    /**
+     * Generate all images.
+     *
+     * @param Kirby $context
+     * @param bool $overwrite
+     *
+     * @return void
+     */
+    public static function generateAllImages(Kirby $context, ?bool $overwrite = false): void
+    {
+        foreach (self::getAllImages($context, true) as $image) {
+            $file = $image['file'];
+
+            if (!isset($file)) {
+                return;
+            }
+
+            if (!($file instanceof File)) {
+                return;
+            }
+
+            self::generateImages($file, $overwrite);
+        }
     }
 
     /**

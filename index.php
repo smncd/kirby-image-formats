@@ -47,10 +47,26 @@ Kirby::plugin('smncd/kirby-image-formats', [
                         'component' => 'k-images-view',
                         'title' => 'Images',
                         'props' => [
+                            'api' => [
+                                'generateImages' => $kirby->url('api') . '/generate-images',
+                                'csrf' => csrf(),
+                            ],
                             'images' => Plugin::getAllImages($kirby),
                         ],
                     ],
                 ],
+            ],
+        ],
+    ],
+    'api' => [
+        'routes' => fn (Kirby $kirby) => [
+            [
+                'pattern' => 'generate-images',
+                'action'  => function () use ($kirby) {
+                    Plugin::generateAllImages($kirby, true);
+
+                    return Plugin::getAllImages($kirby);
+                },
             ],
         ],
     ],
