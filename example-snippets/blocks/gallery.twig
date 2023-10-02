@@ -6,10 +6,10 @@
   <ul>
     {% for image in block.images.toFiles() %}
       <li>
-        {{ 
+        {{
           snippet('picture', {
             image: image,
-          }) 
+          })
         }}
       </li>
     {% endfor %}

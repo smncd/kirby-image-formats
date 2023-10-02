@@ -1,7 +1,7 @@
 <?php
 /**
  * Picture snippet.
- * 
+ *
  * @author Simon Lagerlöf <contact@smn.codes>
  * @copyright Simon Lagerlöf
  * @license Do No Harm

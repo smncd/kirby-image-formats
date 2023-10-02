@@ -10,32 +10,32 @@ use WebPConvert\WebPConvert;
 
 /**
  * Main plugin class.
- * 
+ *
  * @author Simon Lagerlöf <contact@smn.codes>
  * @copyright Simon Lagerlöf
  * @license Do No Harm
- * 
+ *
  */
-class Plugin 
+class Plugin
 {
     /**
      * Plugin name.
-     * 
+     *
      * @var string
      */
     const NAME = 'kirby-image-formats';
 
     /**
      * Files that will be converted.
-     * 
-     * 
+     *
+     *
      * @var array<string>
      */
     const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 
     /**
      * Formats for image to be converted into.
-     * 
+     *
      * @var array<string>
      */
     const FORMATS = ['avif', 'webp'];
@@ -59,9 +59,9 @@ class Plugin
 
     /**
      * Generate images.
-     * 
+     *
      * @param File $file
-     * 
+     *
      * @return void
      */
     public static function generateImages(File $file): void
@@ -78,10 +78,9 @@ class Plugin
 
     /**
      * Delete images.
-     * 
-     * 
+     *
      * @param File $file
-     * 
+     *
      * @return void
      */
     public static function deleteImages(File $file): void
@@ -99,9 +98,9 @@ class Plugin
 
     /**
      * Get array of URL's for converted image.
-     * 
+     *
      * @param File $file
-     * 
+     *
      * @return array
      */
     public static function getImageUrls(File $file): array
@@ -109,22 +108,22 @@ class Plugin
         $urls = [];
 
         foreach (Plugin::FORMATS as $format) {
-            if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {        
+            if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {
                 continue;
-            } 
-                
-            $urls[$format] = self::_filePath($file->url(), $format);           
+            }
+
+            $urls[$format] = self::_filePath($file->url(), $format);
         }
-        
+
         return $urls;
     }
 
     /**
      * Get array of filesystem paths for converted image.
-     * 
+     *
      * @param File $file
      * @param bool $includeMissing
-     * 
+     *
      * @return array
      */
     public static function getImagePaths(File $file, bool $includeMissing = true): array
@@ -134,22 +133,22 @@ class Plugin
         foreach (Plugin::FORMATS as $format) {
             $filePath = self::_filePath($file->mediaRoot(), $format);
 
-            if (!$includeMissing && !F::exists($filePath)) { 
+            if (!$includeMissing && !F::exists($filePath)) {
                 continue;
-            } 
+            }
 
             $paths[$format] = $filePath;
         }
-        
+
         return $paths;
     }
 
     /**
      * Get file path.
-     * 
+     *
      * @param string $path
      * @param string $format
-     * 
+     *
      * @return string
      */
     private static function _filePath(string $path, string $format): string
@@ -159,12 +158,12 @@ class Plugin
 
     /**
      * Generate WebP.
-     * 
+     *
      * @see https://github.com/rosell-dk/webp-convert
-     * 
+     *
      * @param string $destination
      * @param File $file
-     * 
+     *
      * @return void
      */
     private static function _generateWebP(string $destination, File $file): void
@@ -176,7 +175,7 @@ class Plugin
                 $source,
                 $destination
             );
-            
+
         } catch (Exception $exception) {
             die($exception->getMessage());
         }
@@ -184,14 +183,14 @@ class Plugin
 
     /**
      * Generate Avif.
-     * 
-     * It seems converting png's to avif is not very reliable, 
-     * as the alpha channel is not carried through to the output. 
+     *
+     * It seems converting png's to avif is not very reliable,
+     * as the alpha channel is not carried through to the output.
      * So, let's only convert jpg's to avif, for now.
-     * 
+     *
      * @param string $destination
      * @param File $file
-     * 
+     *
      * @return void
      */
     private static function _generateAvif(string $destination, File $file): void
@@ -199,10 +198,10 @@ class Plugin
         if (!class_exists('Imagick') || !in_array($file->extension(), ['jpg', 'jpeg'])) {
             return;
         }
-        
-        try {      
+
+        try {
             $source = $file->contentFileDirectory() . '/' . $file->filename();
-    
+
             $image = new \Imagick($source);
             $image->setImageFormat('avif');
             $image->writeImage($destination);

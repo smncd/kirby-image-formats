@@ -4,8 +4,8 @@ declare(strict_types=1);
 use Kirby\Cms\Html;
 use Kirby\Toolkit\Str;
 
-/** 
- * @var \Kirby\Cms\Block $block 
+/**
+ * @var \Kirby\Cms\Block $block
  */
 $alt     = $block->alt();
 $caption = $block->caption();
@@ -40,7 +40,7 @@ if ($isWeb) {
                 <?= snippet('picture', [ 'image' => $image, 'alt' => $alt->esc() ]) ?>
             <?php endif ?>
         <?php endif ?>
-        
+
         <?php if ($caption->isNotEmpty()): ?>
             <figcaption>
                 <?= $caption ?>
