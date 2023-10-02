@@ -30,10 +30,13 @@ No setup is needed from the panel, just upload images as normal. The plugin auto
 The plugin gives you access to the `picture` snippet, which can be used like so within your templates:
 
 ```php
-<?= snippet('picture', [ 
-    'image' => $image, 
+<?= snippet('picture', [
+    'image' => $image,
     'alt' => 'This is the alt text!',
     'class' => 'banner',
+    'attr' => [
+      'loading' => 'lazy'
+    ]
 ]) ?>
 ```
 
@@ -41,18 +44,19 @@ The rendered HTML will be:
 
 ```html
 <picture>
-  <source 
-    srcset="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.avif" 
+  <source
+    srcset="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.avif"
     type="image/avif"
   >
-  <source 
-    srcset="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.webp" 
+  <source
+    srcset="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.webp"
     type="image/webp"
   >
-  <img 
-    class="banner" 
-    src="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.jpg" 
+  <img
+    class="banner"
+    src="http://localhost:8000/media/pages/page/1a2b3c4d5e-1738447298/file-name.jpg"
     alt="This is the alt text!"
+    loading="lazy"
   >
 </picture>
 ```
@@ -65,12 +69,15 @@ If a converted image would be missing or not found, the plugin will create it on
 This also works natively with the [kirby-twig plugin](https://github.com/wearejust/kirby-twig):
 
 ```twig
-{{ 
+{{
   snippet('picture', {
     image: page.image,
     alt: 'This is the alt text!',
     class: 'banner',
-  }) 
+    attr: {
+      loading: 'lazy'
+    }
+  })
 }}
 ```
 
@@ -87,7 +94,7 @@ This also works natively with the [kirby-twig plugin](https://github.com/weareju
 
 To use the new `picture` snippet in the default **image** and **gallery** blocks, you need to modify their snippets.
 
-You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default). 
+You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default).
 
 If you are using Twig templates in your project, you can use the Twig snippets instead.
 
@@ -97,7 +104,7 @@ If you are using Twig templates in your project, you can use the Twig snippets i
 
 AVIF support is generally a big dodgy in PHP right now (Oct. 2023), as far as I can tell due to lacking support from underlying libraries, such as Imagick or GD.
 
-Generating AVIFs for JPGs seems to work without issues, but not so much for PNGs. 
+Generating AVIFs for JPGs seems to work without issues, but not so much for PNGs.
 
 The workaround for now is to only convert JPGs to AVIF, and hope for better support with PNGs in the future.
 
