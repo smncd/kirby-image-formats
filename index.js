@@ -7,7 +7,7 @@ panel.plugin('smncd/kirby-image-formats', {
       data() {
         return {
           columns: {
-            image: {
+            name: {
               label: 'Image',
               mobile: true,
               width: '40%',
@@ -27,7 +27,12 @@ panel.plugin('smncd/kirby-image-formats', {
               width: '100%',
             },
           },
-          rows: this.images,
+          rows: this.images.map(image => ({
+            name: image.name,
+            webp: image.webp ? '✅' : '❌',
+            avif: image.avif ? '✅' : '❌',
+            url: image.url,
+          })),
         };
       },
       template: `

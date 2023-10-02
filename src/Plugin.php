@@ -152,9 +152,11 @@ class Plugin
      * Get array of all images, and if they have generated versions available.
      *
      * @param Kirby $context
+     * @param bool $includeImage
+     *
      * @return array
      */
-    public static function getAllImages(Kirby $context): array
+    public static function getAllImages(Kirby $context, bool $includeImage = false): array
     {
         $images = [];
 
@@ -168,13 +170,26 @@ class Plugin
 
         foreach ($sourceImages as $image) {
             $generatedPaths = self::getImagePaths($image);
+            $generatedUrls = self::getImageUrls($image);
 
-            $images[] = [
-                'image' => $image->filename(),
+            $out = [
+                'name' => $image->filename(),
                 'url' => $image->url(),
-                'webp' => F::exists($generatedPaths['webp']) ? '✅' : '❌',
-                'avif' => F::exists($generatedPaths['avif']) ? '✅' : '❌',
+                'webp' => F::exists($generatedPaths['webp']) ? [
+                    'path' => $generatedPaths['webp'],
+                    'url' => $generatedUrls['webp'],
+                ] : false,
+                'avif' => F::exists($generatedPaths['avif']) ? [
+                    'path' => $generatedPaths['avif'],
+                    'url' => $generatedUrls['avif'],
+                ] : false,
             ];
+
+            if ($includeImage) {
+                $out['file'] = $image;
+            }
+
+            $images[] = $out;
         }
 
         return $images;
