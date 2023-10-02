@@ -109,7 +109,6 @@ class Plugin
         $urls = [];
 
         foreach (Plugin::FORMATS as $format) {
-
             if (!F::exists(self::_filePath($file->mediaRoot(), $format))) {        
                 continue;
             } 
@@ -124,14 +123,19 @@ class Plugin
      * Get array of filesystem paths for converted image.
      * 
      * @param File $file
+     * @param bool $includeMissing
      * 
      * @return array
      */
-    public static function getImagePaths(File $file): array
+    public static function getImagePaths(File $file, bool $includeMissing = true): array
     {
         $paths = [];
 
         foreach (Plugin::FORMATS as $format) {
+            if (!$includeMissing && !F::exists(self::_filePath($file->mediaRoot(), $format))) {        
+                continue;
+            } 
+
             $paths[$format] = self::_filePath($file->mediaRoot(), $format);
         }
         
