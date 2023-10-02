@@ -10,10 +10,23 @@
 declare(strict_types=1);
 
 use KirbyImageFormats\Plugin;
+use Kirby\Cms\Html;
 
-$class = isset($class) ? $class : '';
+$attr = isset($attr) && is_array($attr) ? $attr : [];
 
-$alt = isset($alt) ? $alt : '';
+if (isset($class)) {
+    if (is_array($class)) {
+        $class = implode(' ', $class);
+    }
+
+    if (is_string($class)) {
+        $attr['class'] = $class;
+    }
+}
+
+if (isset($alt) && is_string($alt)) {
+    $attr['alt'] = $alt;
+}
 
 $fileNames = Plugin::getImageUrls($image) ?: [];
 
@@ -24,6 +37,6 @@ $fileNames = Plugin::getImageUrls($image) ?: [];
         <?php foreach ($fileNames as $extension => $url): ?>
             <source srcset="<?= $url ?>" type="image/<?= $extension ?>" />
         <?php endforeach ?>
-        <img class="<?= $class ?>" src="<?= $image->url() ?>" alt="<?= $alt ?>" />
+        <img src="<?= $image->url() ?>" <?= Html::attr($attr) ?>/>
     </picture>
 <?php endif ?>
