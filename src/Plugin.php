@@ -131,7 +131,7 @@ class Plugin
      *
      * @return array
      */
-    public static function getImagePaths(File $file, bool $includeMissing = true): array
+    public static function getImagePaths(File $file, ?bool $includeMissing = true): array
     {
         $paths = [];
 
