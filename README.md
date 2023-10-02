@@ -14,20 +14,15 @@ Kirby CMS Plugin that converts images uploaded to the panel to WebP and AVIF.
 
 [To be written]
 
-<!--```bash
-composer require smncd/kirby-image-formats
-```
-
-That's it! The plugin requires no setup or configuration to run. WebP images are generated on upload and stored in the `media` dir. -->
-
 ## Usage
 
 ### Panel
 
-No setup is needed from the panel, just upload images as normal. The plugin automatically generates WebP versions of new uploads.
+No setup is needed, just upload images as normal from the Kirby panel. The plugin automatically generates AVIF and WebP versions of new uploads.
 
 ### Snippet
-The plugin gives you access to the `picture` snippet, which can be used like so within your templates:
+
+The plugin provides access to the picture snippet, allowing you to integrate it into your templates as follows in PHP:
 
 ```php
 <?= snippet('picture', [
@@ -40,7 +35,7 @@ The plugin gives you access to the `picture` snippet, which can be used like so 
 ]) ?>
 ```
 
-The rendered HTML will be:
+The rendered HTML output will be:
 
 ```html
 <picture>
@@ -60,13 +55,9 @@ The rendered HTML will be:
   >
 </picture>
 ```
+This picture tag incorporates both the converted AVIF and WebP image formats, with the original image serving as a fallback. No .htaccess rewrites are needed because browsers will automatically revert to the original format if AVIF or WebP is unsupported.
 
-As you can see, the outputed picture tag uses both the converted AVIF and WebP files, and original image as fallback.
-This way, you won't need any .htacess rewrites, as the browser will automatically fall back to the original, if AVIF or WebP is not supported.
-
-If a converted image would be missing or not found, the plugin will create it on page load.
-
-This also works natively with the [kirby-twig plugin](https://github.com/wearejust/kirby-twig):
+This functionality is also seamlessly compatible with the [kirby-twig plugin](https://github.com/wearejust/kirby-twig) in Twig templates:
 
 ```twig
 {{
@@ -81,14 +72,14 @@ This also works natively with the [kirby-twig plugin](https://github.com/weareju
 }}
 ```
 
-#### Snippet options
+#### Snippet Configuration Options
 
-|Name |Type                                                                          |Required|Description                                      |
-|--   |--                                                                            |--      |--                                               |
-|image|[Kirby\Cms\File](https://github.com/getkirby/kirby/blob/main/src/Cms/File.php)|yes     |The image file to be queried.                    |
-|alt  |string                                                                        |no      |Easy access to the 'alt' attr.                   |
-|class|string                                                                        |no      |Easy access to the 'class' attr.                 |
-|attr |array ($key => $value)                                                        |no      |A array of attributes to be used on the `<img/>`.|
+|Name |Type                                                                          |Required|Description                                   |
+|--   |--                                                                            |--      |--                                            |
+|image|[Kirby\Cms\File](https://github.com/getkirby/kirby/blob/main/src/Cms/File.php)|yes     |The image file to be queried.                 |
+|alt  |string                                                                        |no      |Easy access to the 'alt' attr.                |
+|class|string                                                                        |no      |Easy access to the 'class' attr.              |
+|attr |array ($key => $value)                                                        |no      |Additional HTML attributes as key-value pairs.|
 
 ### Blocks
 
