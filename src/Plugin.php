@@ -40,15 +40,31 @@ class Plugin
      */
     const FORMATS = ['avif', 'webp'];
 
+    public static function hook(string $hook, File $file): void
+    {
+        switch ($hook) {
+            case 'file.create:after':
+                self::generateImages($file);
+                break;
+            case 'file.replace:after':
+                self::generateImages($file);
+                break;
+            case 'file.delete:after':
+                self::deleteImages($file);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
-     * After file has been created.
-     * 
+     * Generate images.
      * 
      * @param File $file
      * 
      * @return void
      */
-    public static function hookFileCreateAfter(File $file): void
+    public static function generateImages(File $file): void
     {
         if (!in_array($file->extension(), self::ALLOWED_EXTENSIONS)) {
             return;
@@ -61,27 +77,14 @@ class Plugin
     }
 
     /**
-     * After file has been replaced.
+     * Delete images.
      * 
      * 
      * @param File $file
      * 
      * @return void
      */
-    public static function hookFileReplaceAfter(File $file): void
-    {
-        self::hookFileCreateAfter($file);
-    }
-
-    /**
-     * After file has been deleted.
-     * 
-     * 
-     * @param File $file
-     * 
-     * @return void
-     */
-    public static function hookFileDeleteAfter(File $file): void
+    public static function deleteImages(File $file): void
     {
         $fileNames = self::getImagePaths($file);
 

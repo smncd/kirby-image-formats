@@ -26,9 +26,9 @@ use KirbyImageFormats\Plugin;
 
 Kirby::plugin('smncd/kirby-image-formats', [
     'hooks' => [
-        'file.create:after'  => fn (File $file) => Plugin::hookFileCreateAfter($file),
-        'file.replace:after' => fn (File $file) => Plugin::hookFileReplaceAfter($file),
-        'file.delete:after'  => fn (File $file) => Plugin::hookFileDeleteAfter($file),
+        'file.create:after'  => fn (File $file) => Plugin::hook('file.create:after', $file),
+        'file.replace:after' => fn (File $file) => Plugin::hook('file.replace:after', $file),
+        'file.delete:after'  => fn (File $file) => Plugin::hook('file.delete:after', $file),
     ],
     'snippets' => [
         'picture' => __DIR__ . '/src/snippets/picture.php',

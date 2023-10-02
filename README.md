@@ -1,14 +1,13 @@
 # Kirby Image Formats
 
-Kirby CMS Plugin.
-
-Converts images to WebP on upload 🖼️
+Kirby CMS Plugin that converts images uploaded to the panel to WebP and AVIF.
 
 ### ⚠️ As of writing, this project is very much in it's early stages of development, and not ready for general use. ⚠️
 
 ## Requirements
 
 * Kirby CMS ^3.9
+* Composer (for now)
 * PHP Imagick
 
 ## Installation
@@ -58,8 +57,8 @@ The rendered HTML will be:
 </picture>
 ```
 
-As you can see, the outputed picture tag uses both the converted WebP file, and original image as fallback.
-This way, you won't need any .htacess rewrites, as the browser will automatically fall back to the original, if WebP is not supported.
+As you can see, the outputed picture tag uses both the converted AVIF and WebP files, and original image as fallback.
+This way, you won't need any .htacess rewrites, as the browser will automatically fall back to the original, if AVIF or WebP is not supported.
 
 If a converted image would be missing or not found, the plugin will create it on page load.
 
@@ -87,13 +86,19 @@ This also works natively with the [kirby-twig plugin](https://github.com/weareju
 
 To use the new `picture` snippet in the default **image** and **gallery** blocks, you need to modify their snippets.
 
-You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default). If you are using Twig templates in your project, you can use the Twig snippets instead.
+You can either write custom snippets, or copy the php files in the [example-snippets/blocks](./example-snippets/blocks/) folder to `./site/snippets/blocks` in your project (as they will not be enabled by default). 
+
+If you are using Twig templates in your project, you can use the Twig snippets instead.
 
 ## To do:
 
-### Fully support Avif
+### Fully support AVIF
 
-Using Imagick to generate Avif images from Png's seems to be a bit of a hit or miss, since background opacity aren't carried over, so until I find a solution to that, Avif's will only be created for Jpg's.
+AVIF support is generally a big dodgy in PHP right now (Oct. 2023), as far as I can tell due to lacking support from underlying libraries, such as Imagick or GD.
+
+Generating AVIFs for JPGs seems to work without issues, but not so much for PNGs. 
+
+The workaround for now is to only convert JPGs to AVIF, and hope for better support with PNGs in the future.
 
 ### Config options
 
