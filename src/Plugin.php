@@ -156,7 +156,7 @@ class Plugin
      *
      * @return array
      */
-    public static function getAllImages(Kirby $context, bool $includeImage = false): array
+    public static function getAllImages(Kirby $context, ?bool $includeImage = false): array
     {
         $images = [];
 
