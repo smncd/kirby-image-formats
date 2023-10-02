@@ -46,7 +46,6 @@ Kirby::plugin('smncd/kirby-image-formats', [
                     'action'  => fn () => [
                         'component' => 'k-images-view',
                         'title' => 'Images',
-                        'breadcrumb' => [],
                         'props' => [
                             'images' => Plugin::getAllImages($kirby),
                         ],
