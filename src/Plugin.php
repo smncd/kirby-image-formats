@@ -23,13 +23,6 @@ use WebPConvert\WebPConvert;
 class Plugin
 {
     /**
-     * Plugin name.
-     *
-     * @var string
-     */
-    const NAME = 'kirby-image-formats';
-
-    /**
      * Files that will be converted.
      *
      *
