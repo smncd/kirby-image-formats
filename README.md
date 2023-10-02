@@ -76,11 +76,12 @@ This also works natively with the [kirby-twig plugin](https://github.com/weareju
 
 #### Snippet options
 
-|Name |Type                                                                          |Required|
-|--   |--                                                                            |--      |
-|image|[Kirby\Cms\File](https://github.com/getkirby/kirby/blob/main/src/Cms/File.php)|yes     |
-|alt  |string                                                                        |no      |
-|class|string                                                                        |no      |
+|Name |Type                                                                          |Required|Description                                      |
+|--   |--                                                                            |--      |--                                               |
+|image|[Kirby\Cms\File](https://github.com/getkirby/kirby/blob/main/src/Cms/File.php)|yes     |The image file to be queried.                    |
+|alt  |string                                                                        |no      |Easy access to the 'alt' attr.                   |
+|class|string                                                                        |no      |Easy access to the 'class' attr.                 |
+|attr |array ($key => $value)                                                        |no      |A array of attributes to be used on the `<img/>`.|
 
 ### Blocks
 
