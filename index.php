@@ -33,4 +33,26 @@ Kirby::plugin('smncd/kirby-image-formats', [
     'snippets' => [
         'picture' => __DIR__ . '/src/snippets/picture.php',
     ],
+    'areas' => [
+        'image-formats' => fn (Kirby $kirby) => [
+            'label' => 'Images',
+            'icon' => 'image',
+            'breadcrumbLabel' => 'Images',
+            'menu' => true,
+            'link' => 'image-formats',
+            'views' => [
+                [
+                    'pattern' => 'image-formats',
+                    'action'  => fn () => [
+                        'component' => 'k-images-view',
+                        'title' => 'Images',
+                        'breadcrumb' => [],
+                        'props' => [
+                            'images' => Plugin::getAllImages($kirby),
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
 ]);

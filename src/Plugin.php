@@ -6,6 +6,7 @@ namespace KirbyImageFormats;
 use Exception;
 use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
+use Kirby\Cms\Pages;
 use Kirby\Cms\Site;
 use Kirby\Cms\Users;
 use Kirby\Filesystem\F;
@@ -162,38 +163,25 @@ class Plugin
      */
     public static function getAllImages(Kirby $context): array
     {
-        $images = [
-            'site' => [],
-            'pages' => [],
-            'users' => [],
+        $images = [];
+
+        $getImages = fn (Site|Users|Pages $source) => $source->files()->filterBy('type', '==', 'image');
+
+        $sourceImages = [
+            ...$getImages($context->site()),
+            ...$getImages($context->site()->index()),
+            ...$getImages($context->users()),
         ];
 
-        $getImages = fn (Site|Users $source) => $source->files()->filterBy('type', '==', 'image');
+        foreach ($sourceImages as $image) {
+            $generatedPaths = self::getImagePaths($image);
 
-        $allImages = [
-            'site'  => $getImages($context->site()),
-            'pages' => $getImages($context->site()),
-            'users' => $getImages($context->users()),
-        ];
-
-        foreach ($allImages as $source => $sourceImages) {
-            foreach ($sourceImages as $image) {
-                $generatedUrls = self::getImageUrls($image);
-                $generatedPaths = self::getImagePaths($image);
-
-                $images[$source][] = [
-                    'name' => $image->filename(),
-                    'path' => $image->realpath(),
-                    'webp' => F::exists($generatedPaths['webp']) ? [
-                        'path' => $generatedPaths['webp'],
-                        'url' => $generatedUrls['webp'],
-                    ] : false,
-                    'avif' => F::exists($generatedPaths['avif']) ? [
-                        'path' => $generatedPaths['avif'],
-                        'url' => $generatedUrls['avif'],
-                    ] : false,
-                ];
-            }
+            $images[] = [
+                'image' => $image->filename(),
+                'url' => $image->url(),
+                'webp' => F::exists($generatedPaths['webp']) ? '✅' : '❌',
+                'avif' => F::exists($generatedPaths['avif']) ? '✅' : '❌',
+            ];
         }
 
         return $images;
