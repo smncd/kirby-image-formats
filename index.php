@@ -22,7 +22,7 @@ use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
 use KirbyImageFormats\Plugin;
 
-@include_once __DIR__ . '/vendor/autoload.php';
+@include_once Kirby::instance()->root('base') . '/vendor/autoload.php';
 
 Kirby::plugin('smncd/kirby-image-formats', [
     'hooks' => [
