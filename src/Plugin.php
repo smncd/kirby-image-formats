@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace KirbyImageFormats;
 
 use Exception;
+use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
+use Kirby\Cms\Site;
+use Kirby\Cms\Users;
 use Kirby\Filesystem\F;
 use WebPConvert\WebPConvert;
 
@@ -141,6 +144,51 @@ class Plugin
         }
 
         return $paths;
+    }
+
+    /**
+     * Get array of all images, and if they have generated versions available.
+     *
+     * @param Kirby $context
+     * @return array
+     */
+    public static function getAllImages(Kirby $context): array
+    {
+        $images = [
+            'site' => [],
+            'pages' => [],
+            'users' => [],
+        ];
+
+        $getImages = fn (Site|Users $source) => $source->files()->filterBy('type', '==', 'image');
+
+        $allImages = [
+            'site'  => $getImages($context->site()),
+            'pages' => $getImages($context->site()),
+            'users' => $getImages($context->users()),
+        ];
+
+        foreach ($allImages as $source => $sourceImages) {
+            foreach ($sourceImages as $image) {
+                $generatedUrls = self::getImageUrls($image);
+                $generatedPaths = self::getImagePaths($image);
+
+                $images[$source][] = [
+                    'name' => $image->filename(),
+                    'path' => $image->realpath(),
+                    'webp' => F::exists($generatedPaths['webp']) ? [
+                        'path' => $generatedPaths['webp'],
+                        'url' => $generatedUrls['webp'],
+                    ] : false,
+                    'avif' => F::exists($generatedPaths['avif']) ? [
+                        'path' => $generatedPaths['avif'],
+                        'url' => $generatedUrls['avif'],
+                    ] : false,
+                ];
+            }
+        }
+
+        return $images;
     }
 
     /**
