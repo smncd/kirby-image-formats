@@ -132,11 +132,13 @@ class Plugin
         $paths = [];
 
         foreach (Plugin::FORMATS as $format) {
-            if (!$includeMissing && !F::exists(self::_filePath($file->mediaRoot(), $format))) {        
+            $filePath = self::_filePath($file->mediaRoot(), $format);
+
+            if (!$includeMissing && !F::exists($filePath)) { 
                 continue;
             } 
 
-            $paths[$format] = self::_filePath($file->mediaRoot(), $format);
+            $paths[$format] = $filePath;
         }
         
         return $paths;
