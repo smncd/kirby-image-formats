@@ -54,7 +54,7 @@ class Plugin
             return;
         }
 
-        $fileNames = self::getPaths($file);
+        $fileNames = self::getImagePaths($file);
 
         self::_generateWebP($fileNames['webp'], $file);
         self::_generateAvif($fileNames['avif'], $file);
@@ -83,7 +83,7 @@ class Plugin
      */
     public static function hookFileDeleteAfter(File $file): void
     {
-        $fileNames = self::getPaths($file);
+        $fileNames = self::getImagePaths($file);
 
         foreach ($fileNames as $fileName) {
             $dir = F::dirname($fileName);
@@ -101,7 +101,7 @@ class Plugin
      * 
      * @return array
      */
-    public static function getUrls(File $file): array
+    public static function getImageUrls(File $file): array
     {
         $urls = [];
 
@@ -124,7 +124,7 @@ class Plugin
      * 
      * @return array
      */
-    public static function getPaths(File $file): array
+    public static function getImagePaths(File $file): array
     {
         $paths = [];
 

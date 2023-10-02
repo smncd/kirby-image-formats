@@ -15,7 +15,7 @@ $class = isset($class) ? $class : '';
 
 $alt = isset($alt) ? $alt : '';
 
-$fileNames = Plugin::getUrls($image) ?: [];
+$fileNames = Plugin::getImageUrls($image) ?: [];
 
 ?>
 
