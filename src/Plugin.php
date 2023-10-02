@@ -43,6 +43,14 @@ class Plugin
      */
     const FORMATS = ['avif', 'webp'];
 
+    /**
+     * Use for hooks in plugin config.
+     *
+     * @param string $hook
+     * @param File $file
+     *
+     * @return void
+     */
     public static function hook(string $hook, File $file): void
     {
         switch ($hook) {
