@@ -2,7 +2,9 @@
 
 Kirby CMS Plugin that converts images uploaded to the panel to WebP and AVIF.
 
-### ⚠️ As of writing, this project is very much in it's early stages of development, and not ready for general use. ⚠️
+### ⚠️ As of writing, this project is in it's early stages of development, and bugs may occur. ⚠️
+
+**Version: 0.1.0-alpha**
 
 ## Requirements
 
@@ -12,7 +14,13 @@ Kirby CMS Plugin that converts images uploaded to the panel to WebP and AVIF.
 
 ## Installation
 
-[To be written]
+```bash
+composer require smncd/kirby-image-formats
+```
+
+That's it!
+
+Currently only installation with Composer is tested/confirmed working.
 
 ## Usage
 

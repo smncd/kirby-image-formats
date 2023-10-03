@@ -8,7 +8,7 @@
       "email": "contact@smn.codes"
     }
   ],
-  "license": "Do No Harm",
+  "version":"0.1.0-alpha",
   "require": {
     "php": ">=8.0.0",
     "rosell-dk/webp-convert": "^2.3",
