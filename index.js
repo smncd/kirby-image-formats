@@ -8,7 +8,7 @@
 
 panel.plugin('smncd/kirby-image-formats', {
   components: {
-    'k-images-update-field-preview': {
+    'k-regenerate-image-field-preview': {
       props: {
         row: Object,
       },
@@ -66,7 +66,7 @@ panel.plugin('smncd/kirby-image-formats', {
             regenerate: {
               label: ' ',
               width: '2.5rem',
-              type: 'images-update',
+              type: 'regenerate-image',
             },
           },
           rows: this.formatRows(this.images),
