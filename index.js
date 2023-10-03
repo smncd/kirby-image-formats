@@ -8,6 +8,7 @@ panel.plugin('smncd/kirby-image-formats', {
       data() {
         return {
           loading: false,
+          error: false,
           columns: {
             name: {
               label: 'Image',
@@ -33,41 +34,41 @@ panel.plugin('smncd/kirby-image-formats', {
         };
       },
       methods: {
-        async generateImages() {
-          this.loading = true;
+        async apiRequest(action) {
+          let endpoint = '';
 
-          const res = await fetch(this.api.generateImages, {
-            headers: {
-              'X-CSRF': this.api.csrf
-            }
-          });
+          if (action === 'generate-images') {
+            endpoint = this.api.generateImages;
+          } else if (action === 'delete-images') {
+            endpoint = this.api.deleteImages;
+          } else {
+            return;
+          }
 
-          const data = await res.json();
+          try {
+            this.loading = true;
 
-          this.rows = this.formatRows(data)
+            const res = await fetch(endpoint, {
+              headers: {
+                'X-CSRF': this.api.csrf
+              }
+            });
 
-          this.loading = false;
-        },
-        async deleteImages() {
-          this.loading = true;
+            const data = await res.json();
 
-          const res = await fetch(this.api.deleteImages, {
-            headers: {
-              'X-CSRF': this.api.csrf
-            }
-          });
+            this.rows = this.formatRows(data)
 
-          const data = await res.json();
-
-          this.rows = this.formatRows(data)
-
-          this.loading = false;
+            this.loading = false;
+          } catch (error) {
+            this.error = true;
+            this.loading = false;
+          }
         },
         formatRows(rows) {
           return rows.map(image => ({
             name: image.name,
             webp: image.webp ? '✅' : '❌',
-            avif: image.avif ? '✅' : '❌',
+            avif: image.avif ? '✅' : image.name.endsWith('png') ? '❔' : '❌',
             url: image.url,
           }))
         }
@@ -76,6 +77,9 @@ panel.plugin('smncd/kirby-image-formats', {
         <k-inside>
           <k-view>
             <k-header>Images</k-header>
+            <template v-if="error">
+              <k-box theme="negative" text="An error occured!"/>
+            </template>
             <template v-if="loading">
               <k-loader />
               <br />
@@ -85,9 +89,9 @@ panel.plugin('smncd/kirby-image-formats', {
             </template>
             <template v-else>
               <k-button-group>
-                <k-button icon="image" theme="positive" @click="generateImages()">Generate missing images</k-button>
-                <k-button icon="refresh" @click="generateImages()">Regenerate <strong>all</strong> images</k-button>
-                <k-button icon="trash" theme="negative" @click="deleteImages()">Delete generated images</k-button>
+                <k-button icon="image" theme="positive" @click="apiRequest('generate-images')">Generate missing images</k-button>
+                <k-button icon="refresh" @click="apiRequest('generate-images')">Regenerate <strong>all</strong> images</k-button>
+                <k-button icon="trash" theme="negative" @click="apiRequest('delete-images')">Delete generated images</k-button>
               </k-button-group>
               <k-box theme="info" text="This table provides an encompassing view of all the images available to Kirby, along with information regarding the presence of WebP and AVIF versions." />
               <br />
