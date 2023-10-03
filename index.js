@@ -1,3 +1,11 @@
+/**
+ * Plugin panel script.
+ *
+ * @author Simon Lagerlöf <contact@smn.codes>
+ * @copyright Simon Lagerlöf
+ * @license Do No Harm
+ */
+
 panel.plugin('smncd/kirby-image-formats', {
   components: {
     'k-images-view': {
