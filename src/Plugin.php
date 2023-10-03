@@ -231,6 +231,7 @@ class Plugin
             $out = [
                 'name' => $image->filename(),
                 'url' => $image->url(),
+                'path' => $image->realpath(),
                 'webp' => F::exists($generatedPaths['webp']) ? [
                     'path' => $generatedPaths['webp'],
                     'url' => $generatedUrls['webp'],

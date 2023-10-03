@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
+use Kirby\Filesystem\F;
 use KirbyImageFormats\Plugin;
 
 @include_once Kirby::instance()->root('base') . '/vendor/autoload.php';
@@ -66,8 +67,24 @@ Kirby::plugin('smncd/kirby-image-formats', [
                 'method' => 'POST',
                 'action'  => function () use ($kirby) {
                     $overwrite = $kirby->request()->body()->get('overwrite', false);
+                    $image = $kirby->request()->body()->get('image', null);
 
-                    Plugin::generateAllImages($kirby, $overwrite);
+                    if(isset($image)) {
+                        $file = null;
+
+                        foreach (Plugin::getAllImages($kirby, true) as $item) {
+                            if ($item['path'] === $image) {
+                                $file = $item['file'];
+                                break;
+                            }
+                        }
+
+                        if($file instanceof File) {
+                            Plugin::generateImages($file);
+                        }
+                    } else {
+                        Plugin::generateAllImages($kirby, $overwrite);
+                    }
 
                     return Plugin::getAllImages($kirby);
                 },

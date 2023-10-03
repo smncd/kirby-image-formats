@@ -8,6 +8,28 @@
 
 panel.plugin('smncd/kirby-image-formats', {
   components: {
+    'k-images-update-field-preview': {
+      props: {
+        row: Object,
+      },
+      data() {
+        return this.row.regenerate;
+      },
+      methods: {
+        async regenerateImage(path) {
+          if (typeof path !== 'string') {
+            return;
+          }
+
+          await this.row.regenerate.apiRequest('regenerate-images', path);
+        }
+      },
+      template: `
+        <div class="k-html-field-preview"  title="Regenerate images">
+          <k-button icon="refresh" @click="regenerateImage(path)"></k-button>
+        </div>
+      `,
+    },
     'k-images-view': {
       props: {
         images: Array,
@@ -22,27 +44,36 @@ panel.plugin('smncd/kirby-image-formats', {
               label: 'Image',
               mobile: true,
               width: '40%',
+              type: 'html',
             },
             webp: {
               label: 'WebP',
               width: '4rem',
               mobile: true,
+              type: 'html',
             },
             avif: {
               label: 'AVIF',
               width: '4rem',
               mobile: true,
+              type: 'html',
             },
             url: {
               label: 'Link',
               width: '100%',
+              type: 'html',
+            },
+            regenerate: {
+              label: ' ',
+              width: '2.5rem',
+              type: 'images-update',
             },
           },
           rows: this.formatRows(this.images),
         };
       },
       methods: {
-        async apiRequest(action) {
+        async apiRequest(action, image = undefined) {
           let endpoint = '';
 
           switch (action) {
@@ -66,7 +97,8 @@ panel.plugin('smncd/kirby-image-formats', {
                 'X-CSRF': this.api.csrf,
               },
               body: JSON.stringify({
-                overwrite: action === 'regenerate-images'
+                overwrite: action === 'regenerate-images',
+                image: image
               })
             });
 
@@ -84,8 +116,13 @@ panel.plugin('smncd/kirby-image-formats', {
           return rows.map(image => ({
             name: image.name,
             webp: image.webp ? '✅' : '❌',
-            avif: image.avif ? '✅' : image.name.endsWith('png') ? '❔' : '❌',
-            url: image.url,
+            avif: image.avif ? '✅' : image.name.endsWith('png') ? '<i title="AVIFs are currently not supported for PNGs">❔</i>' : '❌',
+            url: `<a href="${image.url}">${image.url}</a>`,
+            regenerate: {
+              path: image.path,
+              api: this.api,
+              apiRequest: this.apiRequest
+            }
           }))
         }
       },
@@ -115,7 +152,11 @@ panel.plugin('smncd/kirby-image-formats', {
                 :columns="columns"
                 :rows="rows"
                 empty="No images available"
-              />
+              >
+                <template #regenerate="{ row }">
+                  <div>AAAAAAAAAa</div>
+                </template>
+              </k-table>
             </template>
           </k-view>
         </k-inside>
