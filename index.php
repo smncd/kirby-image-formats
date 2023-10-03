@@ -63,14 +63,18 @@ Kirby::plugin('smncd/kirby-image-formats', [
         'routes' => fn (Kirby $kirby) => [
             [
                 'pattern' => 'generate-images',
+                'method' => 'POST',
                 'action'  => function () use ($kirby) {
-                    Plugin::generateAllImages($kirby, true);
+                    $overwrite = $kirby->request()->body()->get('overwrite', false);
+
+                    Plugin::generateAllImages($kirby, $overwrite);
 
                     return Plugin::getAllImages($kirby);
                 },
             ],
             [
                 'pattern' => 'delete-images',
+                'method' => 'POST',
                 'action'  => function () use ($kirby) {
                     Plugin::deleteAllImages($kirby);
 

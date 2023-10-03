@@ -37,21 +37,29 @@ panel.plugin('smncd/kirby-image-formats', {
         async apiRequest(action) {
           let endpoint = '';
 
-          if (action === 'generate-images') {
-            endpoint = this.api.generateImages;
-          } else if (action === 'delete-images') {
-            endpoint = this.api.deleteImages;
-          } else {
-            return;
+          switch (action) {
+            case 'generate-images':
+            case 'regenerate-images':
+              endpoint = this.api.generateImages;
+              break;
+            case 'delete-images':
+              endpoint = this.api.deleteImages;
+              break
+            default:
+              return;
           }
 
           try {
             this.loading = true;
 
             const res = await fetch(endpoint, {
+              method: 'POST',
               headers: {
-                'X-CSRF': this.api.csrf
-              }
+                'X-CSRF': this.api.csrf,
+              },
+              body: JSON.stringify({
+                overwrite: action === 'regenerate-images'
+              })
             });
 
             const data = await res.json();
@@ -90,7 +98,7 @@ panel.plugin('smncd/kirby-image-formats', {
             <template v-else>
               <k-button-group>
                 <k-button icon="image" theme="positive" @click="apiRequest('generate-images')">Generate missing images</k-button>
-                <k-button icon="refresh" @click="apiRequest('generate-images')">Regenerate <strong>all</strong> images</k-button>
+                <k-button icon="refresh" @click="apiRequest('regenerate-images')">Regenerate <strong>all</strong> images</k-button>
                 <k-button icon="trash" theme="negative" @click="apiRequest('delete-images')">Delete generated images</k-button>
               </k-button-group>
               <k-box theme="info" text="This table provides an encompassing view of all the images available to Kirby, along with information regarding the presence of WebP and AVIF versions." />
