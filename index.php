@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use Kirby\Cms\App as Kirby;
 use Kirby\Cms\File;
-use Kirby\Filesystem\F;
 use KirbyImageFormats\Plugin;
 
 @include_once Kirby::instance()->root('base') . '/vendor/autoload.php';
