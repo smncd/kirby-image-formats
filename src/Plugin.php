@@ -285,8 +285,8 @@ class Plugin
                 $destination
             );
 
-        } catch (Exception $exception) {
-            die($exception->getMessage());
+        } catch (Exception) {
+            throw new Exception('Cannot generate WebP');
         }
     }
 
@@ -315,8 +315,8 @@ class Plugin
             $image->setImageFormat('avif');
             $image->writeImage($destination);
 
-        } catch (Exception $exception) {
-            die($exception->getMessage());
+        } catch (Exception) {
+            throw new Exception('Cannot generate AVIF');
         }
     }
 }
