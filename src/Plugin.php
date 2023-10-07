@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace KirbyImageFormats;
+namespace Smncd\KirbyImageFormats;
 
 use Exception;
 use Kirby\Cms\App as Kirby;

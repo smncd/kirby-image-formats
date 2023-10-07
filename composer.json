@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "KirbyImageFormats\\": "src/"
+      "Smncd\\KirbyImageFormats\\": "src/"
     }
   },
   "config": {

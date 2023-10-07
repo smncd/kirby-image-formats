@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-use KirbyImageFormats\Plugin;
+use Smncd\KirbyImageFormats\Plugin;
 use Kirby\Cms\Html;
 
 $attr = isset($attr) && is_array($attr) ? $attr : [];
