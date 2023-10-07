@@ -49,8 +49,6 @@ class Plugin
     {
         switch ($hook) {
             case 'file.create:after':
-                self::generateImages($file);
-                break;
             case 'file.replace:after':
                 self::generateImages($file);
                 break;
