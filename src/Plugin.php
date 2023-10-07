@@ -79,11 +79,13 @@ class Plugin
         $webp = $fileNames['webp'];
         $avif = $fileNames['avif'];
 
-        if (($overwrite && F::exists($webp)) || !F::exists($webp)) {
+        $shouldGenerate = fn (string $format): bool => ($overwrite && F::exists($format)) || !F::exists($format);
+
+        if ($shouldGenerate($webp)) {
             self::_generateWebP($webp, $file);
         }
 
-        if (($overwrite && F::exists($avif)) || !F::exists($avif)) {
+        if ($shouldGenerate($avif)) {
             self::_generateAvif($avif, $file);
         }
     }
